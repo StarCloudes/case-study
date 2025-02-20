@@ -1,6 +1,5 @@
 import csv
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Read data from CSV
 data = []

@@ -40,10 +40,10 @@ This repository contains a distributed TSQR (Tall-Skinny QR) implementation usin
     brew install openblas lapack
     ```
 
-3. **Matplotlib / numpy**
-    Make sure you have `matplotlib` and `numpy` installed. You can install it via pip：
+3. **Matplotlib**
+    Make sure you have `matplotlib` installed. You can install it via pip：
     ```bash
-    pip3 install matplotlib numpy  
+    pip install matplotlib  
     ```
 
 ## II、Platforms Build Instructions
