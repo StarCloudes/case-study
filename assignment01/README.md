@@ -62,8 +62,10 @@ This repository contains a distributed TSQR (Tall-Skinny QR) implementation usin
     ```
 
 ##  Test results for different values of m and n
-[![Scaling vs m](images/scaling_vs_m.png)](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/scaling_vs_m.png)
+
+![Scaling vs m](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/scaling_vs_m.png)
 Scaling with m: The lines for n=8,16,32 eventually show increasing execution time with m. However, there are a few irregular dips or spikes (for example, m=1000 vs. m=2000 in some curves) where the execution time unexpectedly decreases or increases because of overhead for Small Problems.
-[![Scaling vs m](images/scaling_vs_m.png)](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/scaling_vs_n.png)
+
+![Scaling vs m](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/scaling_vs_n.png)
 Scaling with n: For larger m (like 5000 and 10000), we see that increasing n leads to a clear rise in execution time. For example, at m=10000, time grows from \approx 0.00036 s at n=4 to \approx 0.01789 s at n=32, which is a substantial jump.
 For smaller m (e.g., m=1000 or m=2000), you see some erratic behavior (like a time of 0.0060 s at n=4 but then 0.00044 s at n=8), again likely due to overhead overshadowing the small actual computation..
