@@ -6,11 +6,23 @@ This repository contains a distributed TSQR (Tall-Skinny QR) implementation usin
   - **assignment01.mlx** (the main MATLAB livescript implementing TSQR)
 
 - **C/MPI Version:**
-  - **main.c** (the primary TSQR driver)
+  - **main.c** (the primary TSQR running program)
   - **matrix_utils.c/.h** (utility functions for matrix generation, printing, multiplication, etc.)
   - **tsqr_module.c/.h** (the modularized TSQR functions)
   - **performance_test.c** (a program to measure how TSQR scales for various matrix sizes)
   - **Makefile** (for building and running the `C/MPI` code)
+
+# Key Features of This Implementation
+- **Distributed Computing:** Uses `MPI` to parallelize the QR factorization across multiple processes.
+- **Step-by-Step Factorization:**
+  1. **Local QR Factorization** – Each process computes QR for its submatrix.
+  2. **Merging R Matrices** – The upper triangular R matrices are gathered and stacked.
+  3. **Global QR on Merged R** – A final QR is performed on the merged R blocks.
+  4. **Final Q Computation** – Each local Q is adjusted to form the global Q.
+- **Validation:**
+  - Computes Residual Error Analysis (`||QR - A||_F`) to check decomposition accuracy.
+  - Verifies `Q^T * Q ≈ I` to ensure orthogonality.
+
 
 # For the C/MPI Version
 
@@ -52,24 +64,32 @@ LDFLAGS = -L/usr/lib/ -lopenblas -llapack -lm
     ```bash
     make run
     ```
+    ![main_result](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/main_result.png)
+   
+   TSQR implementation appears to be working correctly based on the output:
+   * The Frobenius norm of the residual is extremely small (~10^(-15)), indicating that QR closely reconstructs A.
+   * The Q matrix is orthogonal, as expected. The values in the identity matrix are very close to exact ones, with only minor floating-point precision effects (~10^(-15)).
 
-2. Run the TSQR Performance Test using 4 `MPI` processes:
+3. Run the TSQR Performance Test using 4 `MPI` processes:
     ```bash
     make run_perf
     ```
+     ![perf_result](https://github.com/StarCloudes/case-study/blob/master/assignment01/c-code/perf_result.png)
+   
     After running this code, these results have been saved in `scaling_results.csv`.
+   
 
 
-3. Use the `Python` Script to draw some scaling plots from the `scaling_results.csv` (Note: Make sure you have `python3` installed). 
+5. Use the `Python` Script to draw some scaling plots from the `scaling_results.csv` (Note: Make sure you have `python3` installed). 
     ```bash
     python3 plot_scaling.py 
     ```
     This script will produce two plots:
-	* scaling_vs_m.png: Execution time vs. m for different fixed values of n.
-	* scaling_vs_n.png: Execution time vs. n for different fixed values of m.
+	* `scaling_vs_m.png`: Execution time vs. m for different fixed values of n.
+	* `scaling_vs_n.png`: Execution time vs. n for different fixed values of m.
 
 
-4. To clean all compiled files for the `C/MPI` version, run:
+6. To clean all compiled files for the `C/MPI` version, run:
     ```bash
     make clean
     ```
