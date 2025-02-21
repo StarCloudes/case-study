@@ -5,7 +5,7 @@
 #include "matrix_utils.h"
 #include "tsqr_module.h"
 
-#define M 1000        // Total number of rows in matrix A
+#define M 1024        // Total number of rows in matrix A
 #define N 4           // Number of columns in matrix A
 #define NUM_BLOCKS 4  // Number of MPI processes (and blocks)
 
