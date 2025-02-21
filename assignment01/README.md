@@ -7,9 +7,9 @@ This repository contains a distributed TSQR (Tall-Skinny QR) implementation usin
 
 - **C/MPI Version:**
   - **main.c** (the primary TSQR running program)
+  - **scaling_test.c** (a program to measure how TSQR scales for various matrix sizes)
   - **matrix_utils.c/.h** (utility functions for matrix generation, printing, multiplication, etc.)
   - **tsqr_module.c/.h** (the modularized TSQR functions)
-  - **performance_test.c** (a program to measure how TSQR scales for various matrix sizes)
   - **Makefile** (for building and running the `C/MPI` code)
 
 # Key Features of This Implementation

@@ -9,14 +9,14 @@ LDFLAGS = -L/opt/homebrew/Cellar/openblas/0.3.29/lib/ -lopenblas -llapack -lm
 
 # Executable names
 TARGET = tsqr
-PERF_TARGET = performance_test
+PERF_TARGET = scaling
 
 # Source files list for tsqr
 SRCS = main.c matrix_utils.c tsqr_module.c
 OBJS = $(SRCS:.c=.o)
 
 # Source files list for performance test
-PERF_SRCS = performance_test.c matrix_utils.c tsqr_module.c
+PERF_SRCS = scaling_test.c matrix_utils.c tsqr_module.c
 PERF_OBJS = $(PERF_SRCS:.c=.o)
 
 # Default target: Build the tsqr executable
@@ -26,7 +26,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-# Link the performance_test executable
+# Link the scaling test executable
 $(PERF_TARGET): $(PERF_OBJS)
 	$(CC) $(CFLAGS) -o $(PERF_TARGET) $^ $(LDFLAGS)
 
@@ -38,7 +38,7 @@ $(PERF_TARGET): $(PERF_OBJS)
 run: $(TARGET)
 	mpirun -np 4 ./$(TARGET)
 
-# Run performance_test: Execute using mpirun with 4 processes
+# Run scaling_test: Execute using mpirun with 4 processes
 run_perf: $(PERF_TARGET)
 	mpirun -np 4 ./$(PERF_TARGET)
 
