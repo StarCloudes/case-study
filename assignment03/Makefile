@@ -1,11 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -O2 -std=c99
-TARGET = cg_poisson
+TARGETS = cg_poisson cg_dense
 
-all: $(TARGET)
+all: $(TARGETS)
 
-$(TARGET): cg_poisson.c
-	$(CC) $(CFLAGS) -o $(TARGET) cg_poisson.c -lm
+cg_poisson: cg_poisson.c
+	$(CC) $(CFLAGS) -o cg_poisson cg_poisson.c -lm
+
+cg_dense: cg_convergence_dense.c
+	$(CC) $(CFLAGS) -o cg_dense cg_convergence_dense.c -lm
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGETS) *.o 
