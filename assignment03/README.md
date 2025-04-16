@@ -1,25 +1,41 @@
 # Case Study 3 GMRES 
 
 ## Overview
-This case study aims to implement and verify two versions of the GMRES algorithm:
--	**Serial GMRES** :
- 	Uses the Arnoldi process to build the Krylov subspace and updates the approximate solution via a least squares solve.
--	**Parallel GMRES**: 
- 	 Parallelizes the inner product computations in the Arnoldi process (using MATLAB’s parfor) to improve efficiency for large-scale problems, while also incorporating an orthonormality check to ensure numerical stability.
+This case study focuses on implementing and analyzing the Conjugate Gradient (CG) algorithm for solving symmetric positive definite linear systems, including both:
 
-## File Descriptions
--	**assignmetn02.mlx**
-     * Implements the serial GMRES algorithm using the Arnoldi process and least squares solve, outputting the approximate solution and residual history.
-     * Implements the parallel GMRES algorithm using MATLAB’s parfor to accelerate inner product computations, with additional checks for orthonormality and residual accuracy.
--	**plots**
-     * Plot the relative residual versus iteration number on a semilog graph for GMRES algorithm.
--	**writeup.pdf**
-     * a summary pdf containing a description of solutions
--	**README.md**
-     * This file, which provides an overall description of the case study, file structure, and usage instructions.
+-	**Structured matrix (Poisson equation** :
+ 	Solved using a 5-point finite difference scheme and matrix-free CG method in C.
+ 	
+-	**PDense matrix with known condition number:**: 
+ 	 Used to analyze convergence behavior and compare against theoretical error bounds.
+Both cases involve collecting iteration counts, execution time, and residuals, with optional visualizations in Python.
+
+
+## File Descriptions 
+- **cg_poisson.c**  
+  Implements the matrix-free CG solver for 2D Poisson problem using 5-point stencil. Outputs performance results and optional solution profile.
+
+- **cg_convergence_dense.c**  
+  Dense CG solver applied to a symmetric Toeplitz matrix with known condition number. Tracks convergence and final residual for large \(N\).
+
+- **residuals_plot.py**  
+  Python script to visualize residual norm and theoretical bound over iterations (semilog plot).
+
+- **u_plot.py**  
+  Python script to plot the computed solution \(u(x)\) or 2D solution heatmap from exported CSV.
+
+- **GM_Writeup.pdf**  
+  PDF writeup for the assignment results and analysis (if generated).
+  
 
 ## Usage Instructions
-1. **Environment Requirements**:
-  MATLAB (preferably R2018b or later) with the Parallel Computing Toolbox (for parfor).
-2.	**Running Codes and Tests**:
-  Import `assignmetn02.mlx` to MATLAB and run the whole file to get the results
+1. **Compile the codes**:
+ use `make` to compile all the c files.
+2.	**Run Programs**:
+ `./cg_poisson`         # for Poisson CG solution
+ `./cg_dense`           # for dense CG
+3.	**Visualize Results (Python)**
+Make sure numpy, matplotlib, and pandas are installed.
+`python3 u_plot.py`             # for Poisson CG solution
+`python3 residuals_plot.py`     # for dense CG
+
