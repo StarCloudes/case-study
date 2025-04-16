@@ -98,8 +98,8 @@ int cg_dense(int N, double* A, double* b, double* x, double* residuals, int maxi
 int main() {
     srand48(time(NULL)); // Seed random number generator
 
-    int Ns[] = {100, 1000, 10000};  // Problem sizes to test
-    int numTests = 3;
+    int Ns[] = {100, 1000, 10000,100000};  // Problem sizes to test
+    int numTests = 4;
     int maxiter = 10000;
     double reltol = sqrt(DBL_EPSILON);  // Relative tolerance for convergence
 
