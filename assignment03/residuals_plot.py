@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def compute_true_kappa(N):
-    print(f"Computing true κ for N={N} ...")
+def compute_kappa(N):
+    print(f"\nComputing true κ for N={N} ...")
     A = np.fromfunction(lambda i, j: (N - np.abs(i - j)) / N, (N, N))
-    eigs = np.linalg.eigvalsh(A)  # symmetric, so use eigvalsh
+    eigs = np.linalg.eigvalsh(A) 
     kappa = eigs[-1] / eigs[0]
-    print(f"λ_max = {eigs[-1]:.6f}, λ_min = {eigs[0]:.6f}, κ = {kappa:.4f}")
+    print(f"λ_max = {eigs[-1]:.3e}, λ_min = {eigs[0]:.3e}, κ = {kappa:.3e}")
     return kappa
 
 def plot_residual_vs_bound(N):
@@ -15,8 +15,8 @@ def plot_residual_vs_bound(N):
     k = np.arange(len(residuals))
     r0 = residuals[0]
 
-    # Get true condition number
-    kappa = compute_true_kappa(N)
+    # Get condition number
+    kappa = compute_kappa(N)
     rho = (np.sqrt(kappa) - 1) / (np.sqrt(kappa) + 1)
     bound = 2 * (rho ** k) * r0
 
@@ -33,7 +33,7 @@ def plot_residual_vs_bound(N):
     plt.savefig(f"convergence_kappa_N{N}.png", dpi=150)
     plt.show()
 
-# draw the plot for N=1000
+# Draw plots for different N values
 plot_residual_vs_bound(100)    
 plot_residual_vs_bound(1000)   
-# plot_residual_vs_bound(10000)   
+plot_residual_vs_bound(10000)

@@ -1,12 +1,10 @@
-// Implementation of Question 3.3: Convergence of CG for a dense matrix
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
 #include <time.h>
 
-// Dot product of two vectors
+// Compute the dot product of two vectors of length n
 double dot_product(int n, double* a, double* b) {
     double sum = 0.0;
     for (int i = 0; i < n; ++i) {
@@ -15,7 +13,7 @@ double dot_product(int n, double* a, double* b) {
     return sum;
 }
 
-// Build dense matrix A_ij = (N - |i - j|) / N
+// Build dense matrix A with entries A_ij = (N - |i - j|) / N
 void build_dense_matrix(int N, double* A) {
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
@@ -24,25 +22,26 @@ void build_dense_matrix(int N, double* A) {
     }
 }
 
-// Fill b with all ones
+// Initialize right-hand side vector b with all 1s
 void build_rhs_vector(int N, double* b) {
     for (int i = 0; i < N; ++i) {
         b[i] = 1.0;
     }
 }
 
-// Conjugate Gradient for dense matrix with residual tracking
+// Conjugate Gradient method with residual recording
+// Returns the number of iterations used until convergence
 int cg_dense(int N, double* A, double* b, double* x, double* residuals, int maxiter, double reltol) {
     double *r = malloc(N * sizeof(double));
     double *p = malloc(N * sizeof(double));
     double *Ap = malloc(N * sizeof(double));
 
-    // Initialize x with a small random perturbation
+    // Initialize x with small random perturbations to avoid numerical pathologies
     for (int i = 0; i < N; ++i) {
-        x[i] = 1e-6 * (2.0 * drand48() - 1.0);
+        x[i] = 1e-6 * (2.0 * drand48() - 1.0); // random value in [-1e-6, 1e-6]
     }
 
-    // r = b - A * x
+    // Compute initial residual r = b - A * x
     for (int i = 0; i < N; ++i) {
         r[i] = b[i];
         for (int j = 0; j < N; ++j) {
@@ -50,6 +49,7 @@ int cg_dense(int N, double* A, double* b, double* x, double* residuals, int maxi
         }
     }
 
+    // Initialize p = r
     for (int i = 0; i < N; ++i) p[i] = r[i];
 
     double r0_norm = sqrt(dot_product(N, r, r));
@@ -66,16 +66,20 @@ int cg_dense(int N, double* A, double* b, double* x, double* residuals, int maxi
         }
 
         double alpha = rsold / dot_product(N, p, Ap);
+
+        // Update x and residual r
         for (int i = 0; i < N; ++i) {
             x[i] += alpha * p[i];
             r[i] -= alpha * Ap[i];
         }
 
         double rsnew = dot_product(N, r, r);
-        residuals[k] = sqrt(rsnew);
+        residuals[k] = sqrt(rsnew); // Save residual norm at iteration k
 
+        // Check stopping condition
         if (residuals[k] <= reltol * r0_norm) break;
 
+        // Update search direction
         double beta = rsnew / rsold;
         for (int i = 0; i < N; ++i) {
             p[i] = r[i] + beta * p[i];
@@ -84,21 +88,22 @@ int cg_dense(int N, double* A, double* b, double* x, double* residuals, int maxi
         rsold = rsnew;
     }
 
+    // Free dynamically allocated memory
     free(r);
     free(p);
     free(Ap);
-    return k + 1;
+    return k + 1; // Return number of iterations
 }
 
 int main() {
-    srand48(time(NULL)); // seed random generator for perturbation
+    srand48(time(NULL)); // Seed random number generator
 
-    int Ns[] = {100, 1000, 10000};
+    int Ns[] = {100, 1000, 10000};  // Problem sizes to test
     int numTests = 3;
     int maxiter = 10000;
-    double reltol = sqrt(DBL_EPSILON);
+    double reltol = sqrt(DBL_EPSILON);  // Relative tolerance for convergence
 
-    printf("%8s %12s %15s %20s %15s\n", "N", "Iterations", "Time(s)", "Final Residual", "    Estimated kappa");
+    printf("%8s %12s %15s %20s\n", "N", "Iterations", "Time(s)", "Final Residual");
     printf("-------------------------------------------------------------------------------------------\n");
 
     for (int t = 0; t < numTests; ++t) {
@@ -109,19 +114,20 @@ int main() {
         double* x = malloc(N * sizeof(double));
         double* residuals = malloc(maxiter * sizeof(double));
 
+        // Set up A and b
         build_dense_matrix(N, A);
         build_rhs_vector(N, b);
 
+        // Run CG and measure time
         clock_t start = clock();
         int iterations = cg_dense(N, A, b, x, residuals, maxiter, reltol);
         clock_t end = clock();
-
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-        double kappa = 1 + 2.0 * (N - 1);
 
-        printf("%8d %12d %15.4f %20.4e %15.0f\n", N, iterations, time_spent, residuals[iterations - 1], kappa);
+        // Output performance data
+        printf("%8d %12d %15.4f %20.4e\n", N, iterations, time_spent, residuals[iterations - 1]);
 
-        // Save residuals for Python plotting
+        // Save residuals to file for later analysis
         char filename[64];
         sprintf(filename, "residuals_N%d.txt", N);
         FILE* fp = fopen(filename, "w");
@@ -130,10 +136,12 @@ int main() {
         }
         fclose(fp);
 
+        // Free memory
         free(A);
         free(b);
         free(x);
         free(residuals);
     }
+
     return 0;
 }
