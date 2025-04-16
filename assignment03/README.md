@@ -1,4 +1,4 @@
-# Case Study 3 CG
+# Case Study 3 Conjugate Gradient (CG) algorithm
 
 ## Overview
 This case study focuses on implementing and analyzing the Conjugate Gradient (CG) algorithm for solving symmetric positive definite linear systems, including both:
@@ -24,7 +24,7 @@ Both cases involve collecting iteration counts, execution time, and residuals, w
 - **u_plot.py**  
   Python script to plot the computed solution \(u(x)\) of 3D solution heatmap from exported CSV.
 
-- **GM_Writeup.pdf**  
+- **CG_Writeup.pdf**  
   PDF writeup for the assignment results and analysis (if generated).
   
 
