@@ -1,4 +1,4 @@
-# Case Study 3 GMRES 
+# Case Study 3 CG
 
 ## Overview
 This case study focuses on implementing and analyzing the Conjugate Gradient (CG) algorithm for solving symmetric positive definite linear systems, including both:
@@ -22,7 +22,7 @@ Both cases involve collecting iteration counts, execution time, and residuals, w
   Python script to visualize residual norm and theoretical bound over iterations (semilog plot).
 
 - **u_plot.py**  
-  Python script to plot the computed solution \(u(x)\) or 2D solution heatmap from exported CSV.
+  Python script to plot the computed solution \(u(x)\) of 3D solution heatmap from exported CSV.
 
 - **GM_Writeup.pdf**  
   PDF writeup for the assignment results and analysis (if generated).
@@ -30,7 +30,7 @@ Both cases involve collecting iteration counts, execution time, and residuals, w
 
 ## Usage Instructions
 1. **Compile the codes**:
- use `make` to compile all the c files.
+ use `make` to compile all the C code files.
 2.	**Run Programs**:
  `./cg_poisson`         # for Poisson CG solution
  `./cg_dense`           # for dense CG
