@@ -3,7 +3,7 @@
 ## Overview
 This case study focuses on implementing and analyzing the Conjugate Gradient (CG) algorithm for solving symmetric positive definite linear systems, including both:
 
--	**Structured matrix (Poisson equation** :
+-	**Structured matrix (Poisson equation)** :
  	Solved using a 5-point finite difference scheme and matrix-free CG method in C.
  	
 -	**PDense matrix with known condition number:**: 
