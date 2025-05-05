@@ -50,7 +50,7 @@ void assemblePoisson2D(int N,
     }
 }
 
-// ---------   simple test --------------
+// =========   simple test  ========= 
 int main() {
     int N = 4;  // small-scale test
     std::cout << "Starting assembly with N=" << N << std::endl;

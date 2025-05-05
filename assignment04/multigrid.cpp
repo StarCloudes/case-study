@@ -71,7 +71,7 @@ void smoothWeightedJacobi(const std::vector<std::vector<double>>& A,
 {
     int n = x.size();
     std::vector<double> x_new(n);
-    // 迭代 ν 次 / ν iterations
+    //  ν iterations
     for (int it = 0; it < nu; ++it) {
         for (int i = 0; i < n; ++i) {
             double sigma = 0;
@@ -226,7 +226,7 @@ void Vcycle(std::vector<GridLevel>& levels,
     // 1) pre-smoothing
     smoothWeightedJacobi(level.A, level.x, level.b, omega, nu);
 
-    // 2) 计算残差 r_l = b_l − A_l x_l
+    // 2) compute residual r_l = b_l − A_l x_lv
     computeResidual(level.A, level.x, level.b, level.r);
 
     // if at the coarsest level, solve directly with Gaussian elimination
